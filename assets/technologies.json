@@ -1,0 +1,31 @@
+[{
+		"skill": "Polymer JS",
+		"first": 70,
+		"second": 80
+	},
+	{
+		"skill": "HTML CSS Javascript ",
+		"first": 70,
+		"second": 80
+	},
+	{
+		"skill": "Angular JS",
+		"first": 50,
+		"second": 60
+	},
+	{
+		"skill": "Java",
+		"first": 60,
+		"second": 70
+	},
+	{
+		"skill": "Spring Webservices",
+		"first": 60,
+		"second": 70
+	},
+	{
+		"skill": "Web Technologies",
+		"first": 60,
+		"second": 70
+	}
+]

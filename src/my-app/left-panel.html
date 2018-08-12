@@ -1,0 +1,163 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../../bower_components/iron-icons/communication-icons.html">
+<dom-module id="left-panel">
+  <template>
+    <style include="my-styles"></style>
+    <style>
+      
+      span{
+        margin-left: 10px;
+      }
+      
+      iron-icon{
+        --iron-icon-fill-color: #d65279;
+        --iron-icon-width: 25px;
+        --iron-icon-height: 25px;
+      }
+      paper-progress{
+        width: 100%;
+      }
+      paper-progress.red {
+        --paper-progress-active-color: #d65279;
+        --paper-progress-secondary-color: rgb(247, 145, 179);
+      }
+    </style>
+
+    <div class="w3-white w3-text-grey w3-card-4">
+
+        
+        <iron-ajax
+           auto
+           url="../../assets/personalInfo.json"
+           handle-as="json"
+           on-response="handleResponse" on-error="onError"></iron-ajax>
+        <iron-ajax
+           auto
+           url="../../assets/technologies.json"
+           handle-as="json"
+           last-response="{{technologies}}" on-response="techResponse" on-error="onError"></iron-ajax>
+        <!-- <iron-ajax
+           auto
+           url="https://api.myjson.com/bins/9npuk"
+           handle-as="json"
+           on-response="handleResponse" on-error="onError"></iron-ajax> -->
+        
+        <div class="w3-display-container">
+          <div style="width:100%; height:400px">
+          <iron-image class="w3-display-middle" src="../../assets/profile.png" style="width: 80%; height: 300px;" preload sizing="cover"></iron-image>
+          </div>
+          <div class="w3-display-bottomleft w3-container w3-text-white">
+            <h2>{{firstName}} {{lastName}}</h2> 
+          </div>
+        </div>
+        <div class="w3-container">
+          <p><iron-icon icon="icons:content-paste"></iron-icon><span>{{designation}}</span></p>
+          <p><iron-icon icon="communication:location-on"></iron-icon><span>{{location}}</span></p>
+          <p><iron-icon icon="communication:email"></iron-icon><span>{{email}}</span></p>
+          <p><iron-icon icon="communication:phone"></iron-icon><span>{{mobile}}</span></p>
+          <hr>
+
+          <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Skills</b></p>
+            <dom-repeat items="{{technologies}}">
+              <template>
+                <p>{{item.skill}}</p>
+                <paper-progress value="{{item.first}}" secondary-progress="{{item.second}}" class="red"></paper-progress>
+              </template>
+            </dom-repeat>
+
+          <br>
+
+          <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Languages</b></p>
+          <p>English</p>
+          <div class="w3-light-grey w3-round-xlarge">
+            <div class="w3-round-xlarge w3-teal" style="height:24px;width:100%"></div>
+          </div>
+          <p>Spanish</p>
+          <div class="w3-light-grey w3-round-xlarge">
+            <div class="w3-round-xlarge w3-teal" style="height:24px;width:55%"></div>
+          </div>
+          <p>German</p>
+          <div class="w3-light-grey w3-round-xlarge">
+            <div class="w3-round-xlarge w3-teal" style="height:24px;width:25%"></div>
+          </div>
+          <br>
+        </div>
+      </div><br>  
+    
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class LeftPanel extends Polymer.Element {
+      static get is() { return 'left-panel'; }
+      static get properties() {
+        return {
+          firstName: {
+            type: String,
+            value: ''
+          },
+          lastName: {
+            type: String,
+            value: ''
+          },
+          age: {
+            type: Number,
+            value: 0
+          },
+          location: {
+            type: String,
+            value: ''
+          },
+          designation: {
+            type: String,
+            value: ''
+          },
+          email: {
+            type: String,
+            value: ''
+          },
+          mobile: {
+            type: Number,
+            value: 0
+          },
+          technologies: {
+            type: Array,
+            value: null,
+            notify: true
+          }
+        };
+      }
+
+      handleResponse(val){
+        if(val && val.detail && val.detail.response){
+          val = val.detail.response;
+          this.firstName = val.firstName;
+          this.lastName = val.lastName;
+          this.age = val.age;
+          this.location = val.location;
+          this.designation = val.designation;
+          this.email = val.email;
+          this.mobile = val.mobile;
+        }
+      }
+
+      techResponse(){
+        console.log('--__> '+ this.technologies);
+      }
+      onError(e){
+        debugger;
+        console.log('Something went wrong');
+      }
+    }
+
+    window.customElements.define(LeftPanel.is, LeftPanel);
+  </script>
+</dom-module>
